@@ -11,6 +11,7 @@ server.register(cors, {
 dotenv.config()
 
 const port = process.env.PORT && 8080
+const host = ("RENDER" in process.env) ? `0.0.0.0` : `localhost`
 const BASE_URL = process.env.BASE_URL
 const API_SECRET = process.env.API_SECRET 
 
@@ -129,7 +130,7 @@ server.get("/:page", async (request, reply) => {
   }
 })
 
-server.listen(port, (err, address) => {
+server.listen({host, port}, (err, address) => {
   if (err) {
     server.log.error(err)
     process.exit(1)
