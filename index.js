@@ -31,6 +31,22 @@ server.get("/", async (request, reply) => {
   }
 })
 
+server.get("/:page", async (request, reply) => {
+  const page = request.params.page ?? 1
+  try {
+    const url = `${BASE_URL}movie/popular?api_key=${API_SECRET}&language=fr&page=${page}`
+    const options = {method: 'GET', headers: {accept: 'application/json'}}
+    const movies = await fetch(url, options).then((res) => res.json())
+
+    reply.status(200)
+    reply.send(movies.results)
+
+    } catch (err) {
+    reply.status(500)
+    reply.send(err.message)
+  }
+})
+
 
 server.get("/toprated/:page", async (request, reply) => {
   const page = request.params.page ?? 1
